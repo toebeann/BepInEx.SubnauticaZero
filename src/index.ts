@@ -38,7 +38,7 @@ const gitConfigEmail: string = getInput('git-config-email')
         ? pusher.email
         : `${env.GITHUB_ACTOR ?? 'github-workflow-update-and-release'}@users.noreply.github.com`);
 
-const REPO = { owner: 'toebeann', repo: 'bepinex.subnautica' };
+const REPO = { owner: 'toebeann', repo: 'bepinex.subnauticazero' };
 const BEPINEX_REPO = { owner: 'BepInEx', repo: 'BepInEx' };
 const PAYLOAD_DIR = 'payload';
 const ASSETS_DIR = 'assets';

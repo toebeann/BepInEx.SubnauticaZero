@@ -1,19 +1,19 @@
 {
-  "name": "bepinex-subnautica",
+  "name": "bepinex-subnautica-zero",
   "version": "1.0.0",
-  "description": "BepInEx pack for Subnautica. Preconfigured and ready to use.",
+  "description": "BepInEx pack for Subnautica: Below Zero. Preconfigured and ready to use.",
   "author": "Tobey Blaber (https://github.com/toebeann)",
   "license": "LGPL-2.1",
-  "homepage": "https://github.com/toebeann/bepinex.subnautica",
+  "homepage": "https://github.com/toebeann/bepinex.subnauticazero",
   "repository": {
     "type": "git",
-    "url": "https://github.com/toebeann/bepinex.subnautica.git"
+    "url": "https://github.com/toebeann/bepinex.subnauticazero.git"
   },
   "bugs": {
-    "url": "https://github.com/toebeann/bepinex.subnautica/issues"
+    "url": "https://github.com/toebeann/bepinex.subnauticazero/issues"
   },
   "funding": [
-    "https://github.com/toebeann/bepinex.subnautica?sponsor=1",
+    "https://github.com/toebeann/bepinex.subnauticazero?sponsor=1",
     {
       "type": "ko-fi",
       "url": "https://ko-fi.com/toebean_"

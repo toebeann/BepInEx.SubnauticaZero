@@ -1,8 +1,8 @@
 ![BepInEx logo](https://avatars2.githubusercontent.com/u/39589027?s=256)
 
-# BepInEx.Subnautica
+# BepInEx.SubnauticaZero
 
-This is a [BepInEx](https://github.com/BepInEx/BepInEx) pack for Subnautica, preconfigured and ready to use.
+This is a [BepInEx](https://github.com/BepInEx/BepInEx) pack for Subnautica: Below Zero, preconfigured and ready to use.
 
 BepInEx is a general purpose framework for Unity modding. BepInEx includes tools and libraries to
 
@@ -15,7 +15,7 @@ BepInEx is currently [one of the most popular modding tools for Unity on GitHub]
 
 ## This pack's contents
 
-This pack is preconfigured and ready to use for Subnautica modding.  
+This pack is preconfigured and ready to use for Subnautica: Below Zero modding.  
 In particular, this pack comes with preconfigured `BepInEx.cfg` that enables the BepInEx console and more extensive logging.
 
 ## Installation (manual)
@@ -26,8 +26,8 @@ To install manually, follow these instructions:
     - For Windows and Linux/SteamDeck, download the archive designated `x64`.
     - For macOS, download the archive designated `*nix`.
 2. Extract the downloaded archive into the game folder:
-    - On Windows and Linux/SteamDeck, the game folder is where the game executable `Subnautica.exe` is located.
-    - On macOS, the game folder is where the game executable `Subnautica.app` is located.
+    - On Windows and Linux/SteamDeck, the game folder is where the game executable `SubnauticaZero.exe` is located.
+    - On macOS, the game folder is where the game executable `SubnauticaZero.app` is located.
 3. Run the game. If everything runs correctly, you will see BepInEx console pop up on your desktop.
 4. Follow the configuration instructions for Windows, Linux/SteamDeck or macOS below:
 
@@ -50,7 +50,7 @@ No need to configure. Simply run the game as usual i.e. by launching from Steam/
     ```
     "<path to game folder>/run_bepinex.sh" %command%
     ```
-    Make sure to replace `<path to game folder>` with the path to the folder where Subnautica is installed!
+    Make sure to replace `<path to game folder>` with the path to the folder where Subnautica: Below Zero is installed!
 3. Run the game via Steam.
 4. At this point, you may see a prompt warning you that "libdoorstop_x64.dylib" cannot be opened because the developer is unverified. In this case:
    1. Open System Preferences.
@@ -61,10 +61,6 @@ No need to configure. Simply run the game as usual i.e. by launching from Steam/
 At this moment you will not see any clear indication that BepInEx is working. It is suggested to test by installing a simple plugin such as [ConfigurationManager](https://www.nexusmods.com/subnautica/mods/1112) and then pressing F5 to open the Configuration Manager window.
 
 ## Useful links
-
--   [Third-party site with a list of known compatible BepInEx plugins](https://ramuneneptune.github.io/modlists/sn.html)
-
-### Useful links for mod authors
 
 -   [BepInEx: writing basic plugin walkthrough](https://docs.bepinex.dev/articles/dev_guide/plugin_tutorial/)
 -   [BepInEx: useful plugins for modding](https://docs.bepinex.dev/articles/dev_guide/dev_tools.html)
