@@ -22,6 +22,18 @@ In particular, this pack comes with
 - a preconfigured `BepInEx.legacy.cfg` for compatibility with legacy QModManager mods. Simply rename to `BepInEx.cfg` when using QModManager, and
 - [Tobey.UnityAudio](https://github.com/toebeann/Tobey.UnityAudio), a configurable BepInEx patcher to automatically add Unity audio support when mods need it. Also includes a preconfigured `Tobey.UnityAudio.cfg` for use with Subnautica: Below Zero.
 
+## Compatibility with QModManager
+
+The TL;DR is that QModManager is compatibile with BepInEx, [but there are some things to bear in mind](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/Compatibility-with-QModManager).
+
+## General FAQ
+
+[There is an FAQ in the wiki.](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/FAQ)
+
+## Installation on macOS for idiots
+
+[Click here for an idiot's guide to macOS installation.](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/Idiot's-guide-to-macOS-installation)
+
 ## Installation (manual)
 
 To install manually, follow these instructions:
