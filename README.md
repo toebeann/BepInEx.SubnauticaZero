@@ -19,7 +19,7 @@ This pack is preconfigured and ready to use for Subnautica: Below Zero modding.
 In particular, this pack comes with 
 
 - a preconfigured `BepInEx.cfg` that enables the BepInEx console and more extensive logging,
-- a preconfigured `BepInEx.legacy.cfg` for compatibility with QModManager on the legacy branch. Simply rename to `BepInEx.cfg` when using this pack on the legacy branch, and
+- a preconfigured `BepInEx.legacy.cfg` for compatibility with legacy QModManager mods. Simply rename to `BepInEx.cfg` when using QModManager, and
 - [Tobey.UnityAudio](https://github.com/toebeann/Tobey.UnityAudio), a configurable BepInEx patcher to automatically add Unity audio support when mods need it. Also includes a preconfigured `Tobey.UnityAudio.cfg` for use with Subnautica: Below Zero.
 
 ## Installation (manual)
@@ -32,7 +32,13 @@ To install manually, follow these instructions:
 2. Extract the contents of the downloaded archive into the game folder:
     - On Windows and Linux/SteamDeck, the game folder is the folder containing the game executable `SubnauticaZero.exe`
     - On macOS, the game folder is the folder containing the game executable `SubnauticaZero.app`
-3. Depending on your operating system:
+3. If you are also using legacy QModManager mods then follow these steps, otherwise skip to step 4:
+   1. Navigate to `<path to game folder>\BepInEx\config`
+   2. Rename the file `BepInEx.cfg` to `BepInEx.stable.cfg`
+   3. Rename the file `BepInEx.legacy.cfg` to `BepInEx.cfg`
+   
+   **Note**: Please remember to undo these changes if you later stop using QModManager mods.
+4. Depending on your operating system:
     - Windows users: Run the game. If everything runs correctly, you will see the BepInEx console pop up on your desktop.
     - Linux/SteamDeck & macOS users: Follow the configuration instructions for your operating system below:
 
