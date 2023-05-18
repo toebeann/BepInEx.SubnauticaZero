@@ -21,7 +21,7 @@ In particular, this pack comes with
 - a preconfigured `BepInEx.cfg` that enables the BepInEx console and more extensive logging,
 - a preconfigured `BepInEx.legacy.cfg` for compatibility with legacy QModManager mods. Simply rename to `BepInEx.cfg` when using QModManager,
 - [Tobey.UnityAudio](https://github.com/toebeann/Tobey.UnityAudio), a configurable BepInEx patcher to automatically add Unity audio support when mods need it. Also includes a preconfigured `Tobey.UnityAudio.cfg` for use with Subnautica: Below Zero, and
-- [Tobey.BZMacProcessFix](https://github.com/toebeann/Tobey.BZMacProcessFix), a BepInEx patcher which resolves an issue for macOS users were some BepInEx plugins will not load due to process name mismatch between the Windows and macOS versions of the game.
+- [Tobey.BZMacProcessFix](https://github.com/toebeann/Tobey.BZMacProcessFix), a BepInEx patcher which resolves an issue for macOS users where some BepInEx plugins will not load due to process name mismatch between the Windows and macOS versions of the game.
 
 ## Compatibility with QModManager
 
