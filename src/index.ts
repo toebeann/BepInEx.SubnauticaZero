@@ -170,18 +170,22 @@ const embedPayload = async (buffer: ArrayBuffer, type: BepInExReleaseType) => {
 
     // embed payload
     for (const path of (await getFileNames(PAYLOAD_DIR)).sort()) {
-        const file = basename(path);
-        const releaseFilters = file
+        const base = basename(path);
+        const typeFilters = base
             .split('.')
             .slice(1)
-            .filter(extension => BepInExReleaseTypes.includes(extension as BepInExReleaseType));
+            .filter(ext => BepInExReleaseTypes.includes(ext as BepInExReleaseType));
 
-        if (releaseFilters.length > 0 && !releaseFilters.includes(type)) {
+        if (typeFilters.length > 0 && !typeFilters.includes(type)) {
             continue;
         }
 
         const dir = dirname(path);
-        const relativePath = relative(PAYLOAD_DIR, join(dir, file.split('.').filter(part => !releaseFilters.includes(part)).join('.')));
+        const file = base
+            .split('.')
+            .filter(ext => !typeFilters.includes(ext))
+            .join('.');
+        const relativePath = relative(PAYLOAD_DIR, join(dir, file));
         zip.file(relativePath, await fs.readFile(path));
     }
 
