@@ -109,6 +109,8 @@ If you also wish to use QModManager, you will need to follow the [Installing QMo
 
 ## Issues, questions, etc.
 
-At this moment, you can use the following channels to ask for help
+[Fisrt, check the FAQ to see if there is an answer to your question/issue.](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/FAQ)
+
+If not, at this moment, you can use the following channels to ask for help
 
 -   [BepInEx Discord](https://discord.gg/MpFEDAg) -- **Only technical support for THIS PACKAGE. No support for plugins.**
