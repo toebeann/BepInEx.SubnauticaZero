@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import { env, exit } from 'node:process';
-import { basename, join, relative, resolve } from 'node:path';
+import { basename, dirname, join, relative, resolve } from 'node:path';
 import dotenv from 'dotenv';
 import { simpleGit } from 'simple-git';
 import { getInput } from '@actions/core';
@@ -170,18 +170,18 @@ const embedPayload = async (buffer: ArrayBuffer, type: BepInExReleaseType) => {
 
     // embed payload
     for (const path of (await getFileNames(PAYLOAD_DIR)).sort()) {
-        const name = basename(path);
-        const ext = name.split('.').at(-1);
+        const file = basename(path);
+        const releaseFilters = file
+            .split('.')
+            .slice(1)
+            .filter(extension => BepInExReleaseTypes.includes(extension as BepInExReleaseType));
 
-        let relativePath = relative(PAYLOAD_DIR, path);
-        if (ext && BepInExReleaseTypes.includes(ext as BepInExReleaseType)) {
-            if (ext !== type) {
-                continue;
-            }
-
-            relativePath = relativePath.substring(0, relativePath.length - ext.length - 1); // trim the extension from the path
+        if (releaseFilters.length > 0 && !releaseFilters.includes(type)) {
+            continue;
         }
 
+        const dir = dirname(path);
+        const relativePath = relative(PAYLOAD_DIR, join(dir, file.split('.').filter(part => !releaseFilters.includes(part)).join('.')));
         zip.file(relativePath, await fs.readFile(path));
     }
 
