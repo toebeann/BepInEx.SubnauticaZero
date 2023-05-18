@@ -21,7 +21,7 @@ In particular, this pack comes with
 - a preconfigured `BepInEx.cfg` that enables the BepInEx console and more extensive logging,
 - a preconfigured `BepInEx.legacy.cfg` for compatibility with legacy QModManager mods. Simply rename to `BepInEx.cfg` when using QModManager,
 - [Tobey.UnityAudio](https://github.com/toebeann/Tobey.UnityAudio), a configurable BepInEx patcher to automatically add Unity audio support when mods need it. Also includes a preconfigured `Tobey.UnityAudio.cfg` for use with Subnautica: Below Zero, and
-- [Tobey.BZMacProcessFix](https://github.com/toebeann/Tobey.BZMacProcessFix), a BepInEx patcher which resolves an issue for macOS users where some BepInEx plugins will not load due to process name mismatch between the Windows and macOS versions of the game.
+- [Tobey.BZMacProcessFix](https://github.com/toebeann/Tobey.BZMacProcessFix), a BepInEx patcher which allows BepInEx plugins with the process filter `SubnauticaZero` to load on macOS - it is finally possible for macOS users to run QModManager!
 
 ## Compatibility with QModManager
 
@@ -99,15 +99,7 @@ To install manually, follow these instructions:
 
 At this moment you will not see any clear indication that BepInEx is working. It is suggested to test by installing a simple plugin such as [Configuration Manager](https://www.nexusmods.com/subnautica/mods/1112) and then pressing F5 to open the Configuration Manager window.
 
-If you also wish to use QModManager, you will need to additionally follow these steps to get QModManager to work on macOS:
-
-1. Install QModManager if you haven't already - **DON'T OVERWRITE ANY FILES!**
-2. Launch the game once, then quit once you get to the main menu
-3. Navigate to `<path to game folder>\BepInEx\plugins\QModMAnager` in Finder
-4. Rename the file `QModInstaller.dll` to `QModInstaller.dll.BACKUP`
-5. Rename the file `QModInstaller.dll.PATCHED` to `QModInstaller.dll`
-
-QModManager should now work on macOS!
+If you also wish to use QModManager, you will need to follow the [Installing QModManager on macOS](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/Installing-QModManager-on-macOS) guide to get QModManager to work on macOS.
 
 ## Useful links
 
