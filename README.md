@@ -102,7 +102,7 @@ If you also wish to use QModManager, you will need to follow the [Installing QMo
 
 ## Issues, questions, etc.
 
-[Fisrt, check the FAQ to see if there is an answer to your question/issue.](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/FAQ)
+[First, check the FAQ to see if there is an answer to your question/issue.](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/FAQ)
 
 If not, at this moment, you can use the following channels to ask for help
 
