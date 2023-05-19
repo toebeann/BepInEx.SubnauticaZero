@@ -268,7 +268,10 @@ if (metadata.version
 }
 
 // we have a new (or unknown) release, let's handle it
-const handled = await Promise.all([handleAsset(latestBepInExRelease, 'x64'), handleAsset(latestBepInExRelease, 'unix')]); // create assets
+const handled = await Promise.all([
+    handleAsset(latestBepInExRelease, 'x64'),
+    handleAsset(latestBepInExRelease, 'unix'),
+]); // create assets
 
 // check for failures
 const failed = handled.filter(result => !result.success && result.asset);
