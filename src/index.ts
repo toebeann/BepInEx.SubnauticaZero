@@ -243,9 +243,6 @@ try {
     exit(1);
 }
 
-const previousMetadata = await getMetadata();
-const metadata = createMetadata(latestBepInExRelease);
-
 if (!env.npm_package_version) {
     env.npm_package_version = (await fs.readJson('package.json')).version;
     if (!env.npm_package_version) {
@@ -253,6 +250,9 @@ if (!env.npm_package_version) {
         exit(1);
     }
 }
+
+const previousMetadata = await getMetadata();
+const metadata = createMetadata(latestBepInExRelease);
 
 const version = `${metadata.version}-payload.${parse(env.npm_package_version, true)}`;
 
