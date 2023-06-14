@@ -163,60 +163,52 @@ const downloadAsset = async (asset: Asset, type: BepInExReleaseType) => {
     return response.data;
 }
 
-const embedPayload = async (buffer: ArrayBuffer, type: BepInExReleaseType) => {
-    console.log(`Embedding payload in ${type} archive...`);
+const embedPayload = async (archive: JSZip) => {
+    console.log(`Embedding payload in archive...`);
 
-    const zip = await JSZip.loadAsync(buffer); // read the contents of the archive
-
-    // embed payload
     for (const path of (await getFileNames(PAYLOAD_DIR)).sort()) {
-        const base = basename(path);
-        const typeFilters = base
-            .split('.')
-            .slice(1)
-            .filter(ext => BepInExReleaseTypes.includes(ext as BepInExReleaseType));
-
-        if (typeFilters.length > 0 && !typeFilters.includes(type)) {
-            continue;
-        }
-
-        const dir = dirname(path);
-        const file = base
-            .split('.')
-            .filter(ext => !typeFilters.includes(ext))
-            .join('.');
-        const relativePath = relative(PAYLOAD_DIR, join(dir, file));
-        zip.file(relativePath, await fs.readFile(path));
+        const relativePath = relative(PAYLOAD_DIR, path);
+        archive.file(relativePath, await fs.readFile(path));
     }
 
-    return zip;
+    return archive;
 }
 
-const writeZipToDisk = async (path: string, archive: JSZip, type: BepInExReleaseType) => {
-    console.log(`Writing ${type} archive to disk...`);
+const writeZipToDisk = async (path: string, archive: JSZip) => {
+    console.log(`Writing archive to disk...`);
     const data = await archive.generateInternalStream({ type: 'uint8array' }).accumulate();
     await fs.writeFile(resolve(path), data);
 }
 
-const handleAsset = async (release: Release, type: BepInExReleaseType) => {
+const getAssetArchive = async (release: Release, type: BepInExReleaseType) => {
     let asset: ReturnType<typeof getAsset>;
-
     try {
         asset = getAsset(release, type);
-        if (!asset)
+        if (!asset) {
             return { asset, type, success: false };
+        }
 
-        const buffer = await downloadAsset(asset, type);
-        if (!buffer)
+        const assetBuffer = await downloadAsset(asset, type);
+        if (!assetBuffer) {
             return { asset, type, success: false };
+        }
 
-        const x64Archive = await embedPayload(buffer, type);
-        await fs.ensureDir(DIST_DIR);
-        await writeZipToDisk(join(DIST_DIR, asset.name), x64Archive, type);
-        return { asset, type, success: true };
+        return { asset, type, success: true, archive: await JSZip.loadAsync(assetBuffer) };
     } catch {
         return { asset, type, success: false };
     }
+}
+
+const mergeArchives = async (...archives: JSZip[]) => {
+    const merged = new JSZip();
+
+    await Promise.all(archives.map(async (archive) => {
+        for (const [path, file] of Object.entries(archive.files)) {
+            merged.file(path, await file.async('uint8array'));
+        }
+    }));
+
+    return merged;
 }
 
 const octokit = new Octokit({
@@ -268,28 +260,36 @@ if (metadata.version
 }
 
 // we have a new (or unknown) release, let's handle it
-const handled = await Promise.all([
-    handleAsset(latestBepInExRelease, 'x64'),
-    handleAsset(latestBepInExRelease, 'unix'),
-]); // create assets
+const archives = await Promise.all([
+    getAssetArchive(latestBepInExRelease, "x64"),
+    getAssetArchive(latestBepInExRelease, "unix"),
+]);
 
 // check for failures
-const failed = handled.filter(result => !result.success && result.asset);
+const failed = archives.filter((result) => !result.success);
 if (failed.length > 0) {
     for (const failure of failed) {
-        console.error(`Failed to handle ${failure.type} asset`, failure.asset);
+        console.error(`Failed to get ${failure.type} archive`, failure.asset);
     }
-    console.error(`Encountered errors handling assets from repo /${BEPINEX_REPO.owner}/${BEPINEX_REPO.repo}`);
+    console.error(`Encountered errors getting assets from repo /${BEPINEX_REPO.owner}/${BEPINEX_REPO.repo}`);
     exit(1);
 }
 
-if (handled.every(result => !result.success)) {
+if (archives.every(result => !result.success)) {
     console.error(`No valid assets were found in repo /${BEPINEX_REPO.owner}/${BEPINEX_REPO.repo}`);
     exit(1);
 }
 
-if (env.MODE === 'dev')
+const merged = await mergeArchives(...archives.map((result) => result.archive!));
+await Promise.all([
+    embedPayload(merged),
+    fs.ensureDir(DIST_DIR),
+]);
+await writeZipToDisk(join(DIST_DIR, "BepInEx.zip"), merged);
+
+if (env.MODE === 'dev') {
     exit(0);
+}
 
 // at this point all assets have been successfully downloaded and saved to disk with embedded payloads
 await writeMetadataToDisk(metadata); // update metadata
