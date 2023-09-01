@@ -20,7 +20,7 @@ In particular, this pack comes with
 
 - [Tobey.Subnautica.ConfigHandler](https://github.com/toebeann/Tobey.Subnautica.ConfigHandler), a configurable BepInEx patcher to automatically take care of BepInEx configuration for QModManager compatibility,
 - [Tobey.UnityAudio](https://github.com/toebeann/Tobey.UnityAudio), a configurable BepInEx patcher to automatically add Unity audio support when mods need it,
-- [Tobey.FileTree](https://github.com/toebeann/Tobey.FileTree), a configurable BepInEx plugin which logs the game's file tree to aide in troubleshooting issues, and
+- [Tobey.FileTree](https://github.com/toebeann/Tobey.FileTree), a configurable BepInEx plugin which logs the game's file tree to aid in troubleshooting issues, and
 - [Tobey.BZMacProcessFix](https://github.com/toebeann/Tobey.BZMacProcessFix), a BepInEx patcher which allows BepInEx plugins with the process filter `SubnauticaZero` to load on macOS - it is finally possible for macOS users to run QModManager!
 
 ## Compatibility with QModManager
