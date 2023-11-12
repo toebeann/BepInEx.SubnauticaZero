@@ -31,7 +31,11 @@ The TL;DR is that QModManager is compatibile with BepInEx, [but there are some t
 
 [There is an FAQ in the wiki](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/FAQ).
 
-## Installation (automatic, Windows only)
+## Easy Automated Installation
+
+### Windows (Vortex)
+
+[Vortex](https://www.nexusmods.com/about/vortex/) is a tool for installing and managing mods on Windows. It can install all kinds of mods for Subnautica and other games, including this pack.
 
 1. Install [Vortex Mod Manager](https://www.nexusmods.com/about/vortex/) if you haven't already. Make sure it's fully up-to-date.
 1. Click the Vortex button at the top of [the Nexus Mods mod page](https://www.nexusmods.com/subnauticabelowzero/mods/344) to install.
@@ -41,19 +45,31 @@ The TL;DR is that QModManager is compatibile with BepInEx, [but there are some t
     - If you see any other notifications saying "Deployment needed" or similar, click `Deploy`.
 1. Run the game. If everything runs correctly, you will see the BepInEx console pop up on your desktop.
 
-## Installation on macOS for idiots
+### macOS (gib)
 
-[Click here for an idiot's guide to macOS installation](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/Idiot's-guide-to-macOS-installation).
+[gib](https://github.com/toebeann/gib) is a command-line tool which automates installation of BepInEx on macOS, as installing it manually is quite cumbersome and error-prone. gib makes it easy.
 
-## Installation (manual)
+1. [Download Tobey's BepInEx Pack for Subnautica: Below Zero](https://github.com/toebeann/BepInEx.SubnauticaZero/releases/latest/download/BepInEx.zip). Make sure to unzip it in your Downloads folder if your browser doesn't do this automatically.
+1. Open Terminal with Launchpad (`⌘ Space`, type `terminal`).
+1. Copy the command from the [gib README](https://github.com/toebeann/gib#readme) and paste it into the Terminal with `⌘ V`, and press `Enter` to run it.
 
-**IMPORTANT NOTE**: If you later install QModManager, please make sure to choose **NOT** to overwrite any files when you do.
+If you get stuck, refer to the [gib README](https://github.com/toebeann/gib#readme) for help.
+
+## Manual Installation
+
+**ℹ️** macOS users should follow [the idiot's guide to macOS installation](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/Idiot's-guide-to-macOS-installation).
+
+***
+
+**⚠️ IMPORTANT NOTE ⚠️**
+
+If you later install QModManager, please make sure to choose **NOT** to overwrite any files when you do.
 
 This is because QModManager overwrites this pack's files with an old version of BepInEx, and many BepInEx plugins require the latest version. QModManager is compatible with this pack's version of BepInEx.
 
 If you do overwrite files when you install QModManager, you will need to reinstall this pack for some BepInEx plugins to work.
 
----
+***
 
 To install manually, follow these instructions:
 
