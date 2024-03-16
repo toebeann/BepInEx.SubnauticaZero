@@ -1,5 +1,9 @@
 {
   "version": "1.6.1",
+  "name": "Tobey's BepInEx Pack for Subnautica Below Zero",
+  "repo": "toebeann/bepinex.subnauticazero",
+  "bepinex": "bepinex/bepinex",
+  "platforms": ["x64", "unix"],
   "sources": [
     "toebeann/Tobey.BZMacProcessFix",
     "toebeann/Tobey.FileTree",

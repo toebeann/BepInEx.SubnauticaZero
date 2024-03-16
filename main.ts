@@ -3,6 +3,7 @@ import { ensureDir } from "https://deno.land/std@0.219.1/fs/mod.ts";
 import {
   basename,
   dirname,
+  join,
   relative,
   resolve,
 } from "https://deno.land/std@0.219.1/path/mod.ts";
@@ -28,17 +29,36 @@ import {
 import { z } from "npm:zod@^3.22.4";
 import payloadJson from "./payload.json" with { type: "json" };
 
-const REPO: Repo = { owner: "toebeann", repo: "bepinex.subnauticazero" };
-const BEPINEX_REPO: Repo = { owner: "BepInEx", repo: "BepInEx" };
+const repoSchema = z.object({
+  owner: z.string(),
+  name: z.string().optional(),
+  repo: z.string(),
+  repository: z.string().optional(),
+})
+  .transform((obj) => ({ ...obj, repo: obj.name ?? obj.repo }));
+type Repo = z.infer<typeof repoSchema>;
+
+const unitySchema = z.object({
+  version: z.string(),
+  corlibs: z.string().array().optional(),
+  libraries: z.string().array().optional(),
+});
+
+const platformSchema = z.literal("x86").or(z.literal("x64")).or(
+  z.literal("unix"),
+);
+type Platform = z.infer<typeof platformSchema>;
+const platformsSchema = z.array(platformSchema);
+
+const REPO = repoSchema.parse(gh(payloadJson.repo));
+const BEPINEX_REPO = repoSchema.parse(gh(payloadJson.bepinex));
 const PAYLOAD_DIR = "payload";
 const DIST_DIR = "dist";
-const DIST_NAME = "Tobey's BepInEx Pack for Subnautica Below Zero.zip";
 const METADATA_FILE = ".metadata.json";
-const BEPINEX_RELEASE_TYPES = ["x86", "x64", "unix"];
+const BEPINEX_PLATFORMS = platformsSchema.parse(payloadJson.platforms);
+const UNITY = "unity" in payloadJson &&
+  Object.freeze(unitySchema.parse(payloadJson.unity));
 
-type Repo = { owner: string; repo: string };
-
-type BepInExReleaseType = typeof BEPINEX_RELEASE_TYPES[number];
 type Release = Awaited<
   ReturnType<InstanceType<typeof Octokit>["rest"]["repos"]["getRelease"]>
 >["data"];
@@ -56,19 +76,18 @@ const httpErrorSchema = z.object({
   status: z.number(),
   message: z.string(),
 }).passthrough();
-type HttpError = z.infer<typeof httpErrorSchema>;
 
 const bepinexAssetFilter = (
   asset: Asset,
-  type: BepInExReleaseType,
+  platform: Platform,
   unityMono?: boolean,
 ) =>
-  asset.name.toLowerCase().includes(type.toLowerCase()) &&
+  asset.name.toLowerCase().includes(platform.toLowerCase()) &&
   (!unityMono || asset.name.toLowerCase().includes("unitymono"));
 
-const getBepInExAsset = (release: Release, type: BepInExReleaseType) =>
-  release.assets.find((asset) => bepinexAssetFilter(asset, type, true)) ??
-    release.assets.find((asset) => bepinexAssetFilter(asset, type));
+const getBepInExAsset = (release: Release, platform: Platform) =>
+  release.assets.find((asset) => bepinexAssetFilter(asset, platform, true)) ??
+    release.assets.find((asset) => bepinexAssetFilter(asset, platform));
 
 const getVersion = (version: string) => {
   const cleaned = clean(version, true);
@@ -188,6 +207,26 @@ const downloadAsset = async (
   return response.data;
 };
 
+const downloadData = async (url: string) => {
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      console.error(
+        `Could not retrieve asset from URL: ${url}`,
+        response.status,
+        response.statusText,
+        response.url,
+      );
+      return;
+    }
+
+    return response.arrayBuffer();
+  } catch (error) {
+    console.error(`Could not retrieve asset from URL: ${url}`, error);
+  }
+};
+
 const embedPayload = async (archive: JSZip) => {
   console.log("Embedding payload in archive...");
 
@@ -200,6 +239,25 @@ const embedPayload = async (archive: JSZip) => {
   return archive;
 };
 
+const embedData = async (
+  archive: JSZip,
+  buffer: ArrayBuffer,
+  predicate?: (filename: string) => boolean,
+) => {
+  const dataArchive = await JSZip.loadAsync(buffer);
+  for (
+    const path of predicate
+      ? Object.keys(dataArchive.files).filter(predicate)
+      : Object.keys(dataArchive.files)
+  ) {
+    archive.file(
+      join("corlibs", path),
+      await dataArchive.file(path)!.async("uint8array"),
+    );
+  }
+  return archive;
+};
+
 const writeArchiveToDisk = (path: string, archive: JSZip) => {
   console.log(`Writing archive to disk: ${path}`);
   return archive.generateInternalStream({ type: "uint8array" })
@@ -209,25 +267,25 @@ const writeArchiveToDisk = (path: string, archive: JSZip) => {
 
 const getBepInExArchive = async (
   release: Release,
-  type: BepInExReleaseType,
+  platform: Platform,
   octokit: Octokit = new Octokit(),
 ) => {
   let asset: ReturnType<typeof getBepInExAsset>;
   try {
-    asset = getBepInExAsset(release, type);
-    if (!asset) return { asset, type, success: false };
+    asset = getBepInExAsset(release, platform);
+    if (!asset) return { asset, platform, success: false };
 
     const assetBuffer = await downloadAsset(asset, BEPINEX_REPO, octokit);
-    if (!assetBuffer) return { asset, type, success: false };
+    if (!assetBuffer) return { asset, platform, success: false };
 
     return {
       asset,
-      type,
+      platform,
       success: true,
       archive: await JSZip.loadAsync(assetBuffer),
     };
   } catch {
-    return { asset, type, success: false };
+    return { asset, platform, success: false };
   }
 };
 
@@ -236,17 +294,13 @@ const getPayloadArchive = async (
   predicate: (asset: Asset) => boolean,
   octokit: Octokit = new Octokit(),
 ) => {
-  const repo = gh(release.html_url);
   const asset = release.assets.find(predicate);
-  if (!repo?.owner || !repo?.name || !asset) {
-    return { asset, repo, success: false };
-  }
+  const parsed = repoSchema.safeParse(gh(release.html_url));
+  if (!asset || !parsed.success) return { asset, repo: parsed, success: false };
+  const repo = parsed.data;
 
   try {
-    const assetBuffer = await downloadAsset(asset, {
-      owner: repo.owner,
-      repo: repo.name,
-    }, octokit);
+    const assetBuffer = await downloadAsset(asset, repo, octokit);
     if (!assetBuffer) return { asset, repo, success: false };
 
     return {
@@ -272,7 +326,7 @@ const mergeArchives = async (...archives: JSZip[]) => {
 };
 
 if (import.meta.main) {
-  if (!Deno.env.get("GITHUB_PERSONAL_ACCESS_TOKEN")) {
+  if (!Deno.env.get("GITHUB_PERSONAL_ACCESS_TOKEN") && Deno.env.get("CI")) {
     console.error("GitHub PAT not set.");
     Deno.exit(1);
   }
@@ -315,18 +369,13 @@ if (import.meta.main) {
 
   const latestPayloadReleases: Release[] = [];
   for await (const source of payloadJson.sources) {
-    const repo = gh(source);
+    let repo: Repo | undefined;
     try {
-      if (!repo?.owner || !repo?.name) {
-        throw source;
-      }
+      repo = repoSchema.parse(gh(source));
 
       try {
         latestPayloadReleases.push(
-          (await octokit.rest.repos.getLatestRelease({
-            owner: repo.owner,
-            repo: repo.name,
-          })).data,
+          (await octokit.rest.repos.getLatestRelease(repo)).data,
         );
       } catch (e) {
         const parsed = httpErrorSchema.safeParse(e);
@@ -334,10 +383,7 @@ if (import.meta.main) {
           // stable release wasn't found, let's also try prereleases
 
           const release = maxBy(
-            (await octokit.rest.repos.listReleases({
-              owner: repo.owner,
-              repo: repo.name,
-            })).data,
+            (await octokit.rest.repos.listReleases(repo)).data,
             (r) => new Date(r.created_at).valueOf(),
           );
 
@@ -393,9 +439,10 @@ if (import.meta.main) {
 
     if (
       !updatedSources.every((source) => {
-        const parsed = gh(source);
-        return parsed?.owner === BEPINEX_REPO.owner &&
-          parsed?.name === BEPINEX_REPO.repo;
+        const parsed = repoSchema.safeParse(gh(source));
+        return parsed.success &&
+          parsed.data.owner === BEPINEX_REPO.owner &&
+          parsed.data.repo === BEPINEX_REPO.repo;
       }) &&
       payloadJson.version === metadata.payload
     ) {
@@ -433,7 +480,9 @@ if (import.meta.main) {
 
   // we have a new release, let's handle it
   const archives = await Promise.all([
-    getBepInExArchive(latestBepInExRelease, "x64", octokit),
+    ...BEPINEX_PLATFORMS.map((platform) =>
+      getBepInExArchive(latestBepInExRelease, platform, octokit)
+    ),
     ...latestPayloadReleases.map((release) =>
       getPayloadArchive(
         release,
@@ -469,10 +518,56 @@ if (import.meta.main) {
   );
   await Promise.all([
     embedPayload(merged),
+    UNITY && UNITY.corlibs
+      ? (async () => {
+        console.log(
+          `Downloading corlibs for Unity version: ${UNITY.version}...`,
+        );
+
+        const corlibs = await downloadData(
+          `https://unity.bepinex.dev/corlibs/${UNITY.version}.zip`,
+        );
+
+        if (!corlibs) {
+          throw `Failed to download corlibs for Unity version: ${UNITY.version}`;
+        }
+
+        console.log(`Embedding corlibs: ${UNITY.version}...`);
+        return embedData(
+          merged,
+          corlibs,
+          UNITY.corlibs!.length === 0
+            ? undefined
+            : (filename) => UNITY.corlibs!.includes(filename),
+        );
+      })()
+      : Promise.resolve(),
+    UNITY && UNITY.libraries
+      ? (async () => {
+        console.log(
+          `Downloading Unity libraries for version: ${UNITY.version}...`,
+        );
+        const libraries = await downloadData(
+          `https://unity.bepinex.dev/libraries/${UNITY.version}.zip`,
+        );
+
+        if (!libraries) {
+          throw `Failed to download Unity libraries for version: ${UNITY.version}`;
+        }
+        console.log(`Embedding Unity libraries: ${UNITY.version}...`);
+        return embedData(
+          merged,
+          libraries,
+          UNITY.libraries!.length === 0
+            ? undefined
+            : (filename) => UNITY.libraries!.includes(filename),
+        );
+      })
+      : Promise.resolve(),
     ensureDir(DIST_DIR),
   ]);
   await writeArchiveToDisk(
-    resolve(DIST_DIR, DIST_NAME),
+    resolve(DIST_DIR, `${payloadJson.name}.zip`),
     merged,
   );
 
@@ -523,7 +618,7 @@ if (import.meta.main) {
       tag_name: `v${version}`,
       target_commitish: commit.commit,
       name: `v${version}`,
-      body: `## Release notes
+      body: `# Payload auto-update
 
 ${
         (updatedSources ?? []).map((source) => {
@@ -534,11 +629,15 @@ ${
           if (!release || !parsed?.owner || !parsed?.name) return "";
 
           return `<details>
-<summary>${parsed.owner}/${parsed.name}</summary>
+<summary>Update ${parsed.repository} to ${release.tag_name}</summary>
 
-${release.name ?? ""} ${release.tag_name} [Link](${release.html_url})
+## [Release notes](${release.html_url})
 
-${release.body ?? "No release notes provided."}
+${
+            release.body?.split("\n").map((s) => `> ${s.trimEnd()}`).join(
+              "\n",
+            ) ?? "No release notes provided."
+          }
 
 </details>`;
         }).join("\n\n")
