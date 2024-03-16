@@ -1,5 +1,10 @@
 {
   "version": "1.6.1",
   "sources": [
+    "toebeann/Tobey.BZMacProcessFix",
+    "toebeann/Tobey.FileTree",
+    "toebeann/Tobey.PluginDoctor",
+    "toebeann/Tobey.Subnautica.ConfigHandler",
+    "toebeann/Tobey.UnityAudio"
   ]
 }
