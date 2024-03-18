@@ -20,7 +20,6 @@ In particular, this pack comes with
 
 -   [Tobey.Subnautica.ConfigHandler](https://github.com/toebeann/Tobey.Subnautica.ConfigHandler), a configurable BepInEx patcher to automatically take care of BepInEx configuration for QModManager compatibility,
 -   [Tobey.UnityAudio](https://github.com/toebeann/Tobey.UnityAudio), a configurable BepInEx patcher to automatically add Unity audio support when mods need it,
--   [Tobey.PluginDoctor](https://github.com/toebeann/Tobey.PluginDoctor), a BepInEx plugin & patcher combo which diagnoses and reports advice on how to handle common problems with BepInEx 5 plugins,
 -   [Tobey.FileTree](https://github.com/toebeann/Tobey.FileTree), a configurable BepInEx plugin which logs the game's file tree to aid in troubleshooting issues, and
 -   [Tobey.BZMacProcessFix](https://github.com/toebeann/Tobey.BZMacProcessFix), a BepInEx patcher which allows BepInEx plugins with the process filter `SubnauticaZero` to load on macOS - it is finally possible for macOS users to run QModManager!
 
@@ -186,7 +185,6 @@ However, the .zip create by this repository's code contains binaries from the fo
 | [BepInEx](https://github.com/BepInEx/BepInEx)                                                | [LGPL-2.1](https://github.com/BepInEx/BepInEx/blob/master/LICENSE)                       |
 | [Tobey.Subnautica.ConfigHandler](https://github.com/toebeann/Tobey.Subnautica.ConfigHandler) | [LGPL-3.0](https://github.com/toebeann/Tobey.Subnautica.ConfigHandler/blob/main/LICENSE) |
 | [Tobey.UnityAudio](https://github.com/toebeann/Tobey.UnityAudio)                             | [LGPL-3.0](https://github.com/toebeann/Tobey.UnityAudio/blob/main/LICENSE)               |
-| [Tobey.PluginDoctor](https://github.com/toebeann/Tobey.PluginDoctor)                         | [LGPL-3.0](https://github.com/toebeann/Tobey.PluginDoctor/blob/main/LICENSE)             |
 | [Tobey.FileTree](https://github.com/toebeann/Tobey.FileTree)                                 | [LGPL-3.0](https://github.com/toebeann/Tobey.FileTree/blob/main/LICENSE)                 |
 | [Tobey.BZMacProcessFix](https://github.com/toebeann/Tobey.BZMacProcessFix)                   | [LGPL-3.0](https://github.com/toebeann/Tobey.BZMacProcessFix/blob/main/LICENSE)          |
 
