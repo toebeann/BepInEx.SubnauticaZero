@@ -54,12 +54,14 @@ If you get stuck, refer to the [gib README](https://github.com/toebeann/gib#read
 
 ## Manual Installation
 
-> [!WARNING]\
+> [!WARNING]
+> 
 > It is _strongly_ recommended that macOS users [install with gib](#macos-gib), as manual installation on macOS is _extremely_ tedious and error prone!
 > 
 > If you are a glutton for punishment and are determined to install manually, follow [the idiot's guide to macOS installation](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/Idiot's-guide-to-macOS-installation).
 
-> [!TIP]\
+> [!TIP]
+> 
 > The game folder is the folder containing the game's executable (e.g. `SubnauticaZero.exe`).
 > 
 > Steam users can find the game folder by right-clicking the game in their Steam library and selecting `Manage` -> `Browse local files`.
@@ -73,8 +75,10 @@ To install manually, follow these instructions:
     - Windows users: Run the game. If everything runs correctly, you will see the BepInEx console pop up on your desktop.
     - Linux (SteamOS etc.) & macOS users: Follow the configuration instructions for your operating system below:
 
-> [!IMPORTANT]\
-> **With just this pack installed, you will not see any changes in-game!**\
+> [!IMPORTANT]
+> 
+> **With just this pack installed, you will not see any changes in-game!**
+> 
 > Check the `LogOutput.log` file in the `BepInEx` folder to determine whether BepInEx has loaded.
 
 ### Configuration on Linux (SteamOS etc.)
@@ -92,12 +96,14 @@ To install manually, follow these instructions:
 
 ## Installing mods
 
-> [!NOTE]\
+> [!NOTE]
+> 
 > The paths in this section are relative to the game folder, i.e. `BepInEx/plugins` = `[game folder]/BepInEx/plugins`, where `[game folder]` is the path to the folder containing the game's executable (e.g. `SubnauticaZero.exe`).
 > 
 > Steam users can find the game folder by right-clicking the game in their Steam library and selecting `Manage` -> `Browse local files`.
 
-> [!TIP]\
+> [!TIP]
+> 
 > "Extract the .zip" simply means take the contents of the .zip file and put them in the specified location.
 > 
 > For example, if you are told to "extract the .zip" or "extract the contents of the archive" into `BepInEx/plugins`, then you can simply open the .zip archive by double-clicking on it, then just select everything inside and drag the contents into your `BepInEx/plugins` folder. Easy!
@@ -129,7 +135,8 @@ However, sometimes mod authors don't give good (or any) instructions, or you jus
 
 ### Mod installation by requirements
 
-> [!TIP]\
+> [!TIP]
+> 
 > On Nexus mod pages, you can usually see a mod's requirements by expanding the `Requirements` near the top of the description tab. Otherwise, read the mod's description.
 
 | Listed in requirements or mentioned somewhere on the page | Where to extract the .zip                                                                                                                               |
