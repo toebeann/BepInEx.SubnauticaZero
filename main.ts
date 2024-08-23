@@ -18,13 +18,11 @@ import gh from "npm:parse-github-url@^1.0.2";
 import { simpleGit } from "npm:simple-git@^3.22.0";
 // @deno-types="npm:@types/semver@^7"
 import {
-  clean,
   coerce,
   inc,
   parse,
   Range,
   satisfies,
-  valid,
 } from "npm:semver@^7.6.0";
 import { z } from "npm:zod@^3.22.4";
 import payloadJson from "./payload.json" with { type: "json" };
@@ -93,11 +91,8 @@ const getBepInExAsset = (release: Release, platform: Platform) =>
   release.assets.find((asset) => bepinexAssetFilter(asset, platform, true)) ??
     release.assets.find((asset) => bepinexAssetFilter(asset, platform));
 
-const getVersion = (version: string) => {
-  const cleaned = clean(version, true);
-  return valid(cleaned, true) ??
-    coerce(cleaned, { loose: true })?.version;
-};
+const getVersion = (version: string) =>
+  coerce(version, { loose: true, includePrerelease: true })?.version;
 
 const getMetadata = async () => {
   try {
