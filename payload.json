@@ -1,9 +1,12 @@
 {
-  "version": "1.7.0",
+  "version": "1.7.1",
   "name": "Tobey's BepInEx Pack for Subnautica Below Zero",
   "repo": "toebeann/bepinex.subnauticazero",
   "bepinex": "bepinex/bepinex",
-  "platforms": ["win_x64", "macos_x64"],
+  "platforms": [
+    "win_x64",
+    "macos_x64"
+  ],
   "sources": [
     "toebeann/Tobey.BZMacProcessFix",
     "toebeann/Tobey.FileTree",
