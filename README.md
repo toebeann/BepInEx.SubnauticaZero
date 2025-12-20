@@ -4,25 +4,14 @@
 
 This is a [BepInEx](https://github.com/BepInEx/BepInEx) pack for Subnautica: Below Zero, preconfigured and ready to use on Windows, macOS and Linux (including SteamOS)!
 
-BepInEx is a general purpose framework for Unity modding. BepInEx includes tools and libraries to
+In particular, this pack comes with:
 
--   load custom code (hereafter _plugins_) into the game on launch;
--   patch in-game methods, classes and even entire assemblies without touching original game files;
--   configure plugins and log game to desired outputs like console or file;
--   manage plugin dependencies.
-
-BepInEx is currently [one of the most popular modding tools for Unity on GitHub](https://github.com/topics/modding?o=desc&s=stars).
-
-## This pack's contents
-
-This pack is preconfigured and ready to use for Subnautica: Below Zero modding.\
-In particular, this pack comes with
-
--   [Tobey.Subnautica.ConfigHandler](https://github.com/toebeann/Tobey.Subnautica.ConfigHandler), a configurable BepInEx patcher to automatically take care of BepInEx configuration for backwards compatibility with mods from older game versions (e.g. QModManager),
--   [Tobey.UnityAudio](https://github.com/toebeann/Tobey.UnityAudio), a configurable BepInEx patcher to automatically add Unity audio support when mods need it,
--   [Tobey.FileTree](https://github.com/toebeann/Tobey.FileTree), a configurable BepInEx plugin which logs the game's file tree to aid in troubleshooting issues,
--   [Tobey.BepInEx.Timestamp](https://github.com/toebeann/Tobey.BepInEx.Timestamp), a configurable BepInEx patcher which logs the current timestamp, and
--   [Tobey.BZMacProcessFix](https://github.com/toebeann/Tobey.BZMacProcessFix), a BepInEx patcher which allows BepInEx plugins with the process filter `SubnauticaZero` to load on macOS - it is finally possible for macOS users to run QModManager!
+-   [Tobey's Subnautica Config Handler](https://github.com/toebeann/Tobey.Subnautica.ConfigHandler), a configurable BepInEx patcher to automatically configure BepInEx for backwards compatibility with legacy mods (e.g. QModManager),
+-   [Tobey's Unity Audio Patcher for BepInEx](https://github.com/toebeann/Tobey.UnityAudio), a configurable BepInEx patcher to automatically add Unity audio support,
+-   [Tobey's Game Info Logger for BepInEx](https://github.com/toebeann/Tobey.BepInEx.GameInfo), a simple BepInEx plugin to log information about the currently loaded Unity game,,
+-   [Tobey's File Tree Logger for BepInEx](https://github.com/toebeann/Tobey.FileTree), a configurable BepInEx plugin which logs the file tree to aid in troubleshooting,,
+-   [Tobey's Timestamp Logger for BepInEx](https://github.com/toebeann/Tobey.BepInEx.Timestamp), a configurable BepInEx patcher which logs the current timestamp, and
+-   [Tobey's macOS Process Fix for Subnautica: Below Zero](https://github.com/toebeann/Tobey.BZMacProcessFix), a BepInEx patcher which allows BepInEx plugins with the process filter `SubnauticaZero` to load on macOS.
 
 ## Compatibility with QModManager
 
@@ -34,7 +23,7 @@ The TL;DR is that QModManager is compatibile with BepInEx, [but there are some t
 >
 > **With just this pack installed, you will not see any changes in-game!**
 >
-> Check the `LogOutput.log` file in the `BepInEx` folder to determine whether BepInEx has loaded.
+> Check the file `BepInEx` > `LogOutput.log` to determine whether BepInEx has loaded.
 
 ### Windows (Vortex)
 
@@ -60,47 +49,103 @@ If you get stuck, refer to the [gib README](https://github.com/toebeann/gib#read
 
 ## Manual Installation
 
-> [!WARNING]
+> [!TIP]
 >
-> It is _strongly_ recommended that macOS users [install with gib](#macos-gib), as manual installation on macOS is _extremely_ tedious and error prone!
->
-> If you are a glutton for punishment and are determined to install manually, follow [the idiot's guide to macOS installation](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/Idiot's-guide-to-macOS-installation).
+> **Make sure to check out the [Installing mods](#installing-mods) section once you have finished installing this pack!**
 
 > [!TIP]
 >
-> The game folder is the folder containing the game's executable (e.g. `SubnauticaZero.exe`).
+> **The game folder is the folder containing the game's executable (e.g. `SubnauticaZero.exe`).**
 >
-> Steam users can find the game folder by right-clicking the game in their Steam library and selecting `Manage` -> `Browse local files`.
+> Steam users can find the game folder by right-clicking the game in their Steam library and selecting `Manage` > `Browse local files`.
+
+### Quick start
+
+#### Windows
+
+Extract the .zip into the game folder replacing any files if prompted, run the game once to generate all needed files and folders, then quit the game at the main menu and you're good to go. Remember to check the [Installing mods](#installing-mods) section for info on how to install mods!
+
+If something doesn't go according to plan or you need further guidance, please refer to the [full instructions](#full-instructions-for-windows-linux-and-steam-deck-handhelds). Don't worry, it looks harder than it is. **Please don't skimread!**
+
+#### Linux and Steam Deck handhelds
+
+Same as for Windows but additionally follow step 4 from the [full instructions](#full-instructions-for-windows-linux-and-steam-deck-handhelds).
+
+For Steam Deck handhelds, switch to Desktop mode to follow the instructions. Once you've got it all working, you'll be able to play with mods in either Desktop or Gaming mode as preferred.
+
+#### macOS
+
+It is _strongly_ recommended that macOS users [install with gib](#macos-gib), as manual installation on macOS is _extremely_ tedious and error prone!
+
+If you are a glutton for punishment and are determined to install manually, follow [the idiot's guide to macOS installation](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/Idiot's-guide-to-macOS-installation).
+
+### Full instructions for Windows, Linux and Steam Deck handhelds
+
+> [!TIP]
+>
+> **The game folder is the folder containing the game's executable (e.g. `Subnautica.exe`).**
+>
+> Steam users can find the game folder by right-clicking the game in their Steam library and selecting `Manage` > `Browse local files`.
 
 To install manually, follow these instructions:
 
 1. [Download Tobey's BepInEx Pack for Subnautica: Below Zero](https://github.com/toebeann/BepInEx.SubnauticaZero/releases/latest/download/Tobey.s.BepInEx.Pack.for.Subnautica.Below.Zero.zip).
-1. Extract the contents of the downloaded archive into the game folder.\
-   **ℹ️** _That just means open the .zip file and drag the files and folders out into the game folder!_
-1. Depending on your operating system:
-    - Windows users: Run the game.
-    - Linux (SteamOS etc.) & macOS users: Follow the configuration instructions for your operating system below:
+2. Make sure the game is not running.
+3. Extract the contents of the downloaded archive into the game folder. Replace any files if prompted.
+
+    **ℹ️** _That just means open the .zip file and drag the files and folders out into the game folder!_
+
+    If done correctly, inside your game folder it should look something like this (the entries in bold being from the pack):
+
+    **⚠️ _This list is used as a reference and is non-exhaustive, there will be other stuff, please don't delete anything!_**
+
+    - _**`BepInEx`**_
+    - `SubnauticaZero_Data`
+    - _**`doorstop_config.ini`**_
+    - `SubnauticaZero.exe`
+    - _**`winhttp.dll`**_
+
+    **⚠️ _If you are missing any of these files or folders, you are probably installing to the wrong place, and this pack will not work._**
+
+4. **Skip this step if you play on Windows!**
+
+    Linux and Steam Deck handheld users: go to your Steam library, right-click the game, select `Properties...` and set the launch options:
+
+    ```sh
+    WINEDLLOVERRIDES="winhttp=n,b" %command%
+    ```
+
+    **⚠️ _Do not set the launch options if you play the game on Windows, or the game won't run!_**
+
+    **ℹ️** _If preferred, Linux users can instead set the Wine configuration (`winecfg`) for the game to add `winhttp` as a DLL override via the `Libraries` tab. Remove the launch options if applicable. [Full instructions here](https://docs.bepinex.dev/articles/advanced/proton_wine.html)._
+
+5. Run the game as normal.
+
+    Note that if you own the game on Steam, you should _always_ launch it with Steam - do not run the .exe file directly (nor via a shortcut to the .exe), as launching the .exe directly causes issues for BepInEx. You can set up a BepInEx-compatible shortcut on your desktop by right-clicking the game in Steam and selecting `Manage` > `Add desktop shortcut`.
+
+    The same may apply to other platforms, e.g. Epic Games Launcher, Microsoft Store, etc.
+
+    Launching the game with Vortex should be fine too.
+
+6. Exit the game at the main menu.
+
+Assuming you have followed these instructions correctly, inside the `BepInEx` folder there will now be a file `LogOutput.log` (or simply `LogOutput` - it's the same thing). This is your log file, and it will be egenerated every time the game runs with technical and diagnostic information about your installed mods, and any errors that might happen while playing. It's very useful for troubleshooting, and it is recommended to share it whenever asking for help with your mods. It is equivalent to the BepInEx console window you might be familiar with, containing all of the same information.
+
+If this file is missing, it usually means that you have not installed the pack correctly and you should probably try again from scratch. Make sure to pay careful attention to the instructions and don't skimread any of the steps.
+
+Otherwise, you can now install mods according to the [Installing mods](#installing-mods) section below.
 
 > [!IMPORTANT]
 >
 > **With just this pack installed, you will not see any changes in-game!**
 >
-> Check the `LogOutput.log` file in the `BepInEx` folder to determine whether BepInEx has loaded.
-
-### Configuration on Linux (SteamOS etc.)
-
-1. If you don't own the game on Steam, add it to Steam as a non-Steam game.
-1. In Steam, go to the game's properties and set the launch arguments to:
-    ```
-    WINEDLLOVERRIDES="winhttp=n,b" %command%
-    ```
-1. Run the game via Steam.
-
-### Configuration on macOS
-
-[Follow the idiot's guide to macOS installation](https://github.com/toebeann/BepInEx.SubnauticaZero/wiki/Idiot's-guide-to-macOS-installation).
+> Check the file `BepInEx` > `LogOutput.log` to determine whether BepInEx has loaded.
 
 ## Installing mods
+
+> [!IMPORTANT]
+>
+> **Always make sure the game is not running when installing, removing or otherwise changing mod files!**
 
 > [!NOTE]
 >
@@ -115,6 +160,7 @@ To install manually, follow these instructions:
 > For example, if you are told to "extract the .zip" or "extract the contents of the archive" into `BepInEx/plugins`, then you can simply open the .zip archive by double-clicking on it, then just select everything inside and drag the contents into your `BepInEx/plugins` folder. Easy!
 
 > [!CAUTION]
+>
 > Nautilus and SMLHelper are incompatible. If you want to use mods for Nautilus, you _can't_ use SMLHelper, and vice versa.
 
 **It is _strongly_ recommended to read and follow the instructions provided in the description of each mod you download.**
@@ -156,13 +202,6 @@ However, sometimes mod authors don't give good (or any) instructions, or you jus
 
 First, double check and follow the instructions on the mod page. If you still can't figure it out or there aren't any instructions on the mod page, you'll have to get in touch with the author of the mod somehow. Your best bet is usually going to be the Nexus Mods posts tab of that mod. Make sure to check that the question hasn't already been asked and answered.
 
-## Useful links for mod authors
-
--   [Doorstop: debugging Unity Mono games](https://github.com/NeighTools/UnityDoorstop#debugging-in-unitymono)
--   [BepInEx: writing basic plugin walkthrough](https://docs.bepinex.dev/articles/dev_guide/plugin_tutorial/)
--   [BepInEx: useful plugins for modding](https://docs.bepinex.dev/articles/dev_guide/dev_tools.html)
--   [BepInEx: patching game methods at runtime](https://docs.bepinex.dev/articles/dev_guide/runtime_patching.html)
-
 ## Issues, questions, etc.
 
 First, please make sure to check that the answer you're looking for isn't already somewhere on this page. Use Ctrl+F to search for keywords.
@@ -174,7 +213,14 @@ If not, at this moment, you can use the following channels to ask for help
 -   [Subnautica Modding Community Discord](https://discord.gg/UpWuWwq)
 -   [Nexus Mods posts tab](https://www.nexusmods.com/subnauticabelowzero/mods/344/?tab=posts)
 -   [GitHub issues](https://github.com/toebeann/BepInEx.SubnauticaZero/issues)
--   [BepInEx Discord](https://discord.gg/MpFEDAg) -- **Only technical support for THIS PACKAGE. No support for plugins.**
+
+## Useful links for mod authors
+
+-   [Doorstop: debugging Unity Mono games](https://github.com/NeighTools/UnityDoorstop#debugging-in-unitymono)
+-   [BepInEx: writing basic plugin walkthrough](https://docs.bepinex.dev/articles/dev_guide/plugin_tutorial/)
+-   [BepInEx: useful plugins for modding](https://docs.bepinex.dev/articles/dev_guide/dev_tools.html)
+-   [BepInEx: patching game methods at runtime](https://docs.bepinex.dev/articles/dev_guide/runtime_patching.html)
+-   [Subnautica Modding Community Discord](https://discord.gg/UpWuWwq)
 
 ## Licensing
 
@@ -184,11 +230,12 @@ However, the .zip created by this repository's code contains binaries from the f
 
 | Project                                                                                      | License(s)                                                                               |
 | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| [BepInEx](https://github.com/BepInEx/BepInEx)                                                | [LGPL-2.1](https://github.com/BepInEx/BepInEx/blob/master/LICENSE)                       |
-| [Tobey.Subnautica.ConfigHandler](https://github.com/toebeann/Tobey.Subnautica.ConfigHandler) | [LGPL-3.0](https://github.com/toebeann/Tobey.Subnautica.ConfigHandler/blob/main/LICENSE) |
-| [Tobey.UnityAudio](https://github.com/toebeann/Tobey.UnityAudio)                             | [LGPL-3.0](https://github.com/toebeann/Tobey.UnityAudio/blob/main/LICENSE)               |
-| [Tobey.FileTree](https://github.com/toebeann/Tobey.FileTree)                                 | [LGPL-3.0](https://github.com/toebeann/Tobey.FileTree/blob/main/LICENSE)                 |
+| [BepInEx](https://github.com/BepInEx/BepInEx)                                                | [MIT](https://github.com/BepInEx/BepInEx/blob/v5-lts/LICENSE)                            |
+| [Tobey.BepInEx.GameInfo](https://github.com/toebeann/Tobey.BepInEx.GameInfo)                 | [LGPL-3.0](https://github.com/toebeann/Tobey.BepInEx.GameInfo/blob/main/LICENSE)         |
 | [Tobey.BepInEx.Timestamp](https://github.com/toebeann/Tobey.BepInEx.Timestamp)               | [LGPL-3.0](https://github.com/toebeann/Tobey.BepInEx.Timestamp/blob/main/LICENSE)        |
 | [Tobey.BZMacProcessFix](https://github.com/toebeann/Tobey.BZMacProcessFix)                   | [LGPL-3.0](https://github.com/toebeann/Tobey.BZMacProcessFix/blob/main/LICENSE)          |
+| [Tobey.FileTree](https://github.com/toebeann/Tobey.FileTree)                                 | [LGPL-3.0](https://github.com/toebeann/Tobey.FileTree/blob/main/LICENSE)                 |
+| [Tobey.Subnautica.ConfigHandler](https://github.com/toebeann/Tobey.Subnautica.ConfigHandler) | [LGPL-3.0](https://github.com/toebeann/Tobey.Subnautica.ConfigHandler/blob/main/LICENSE) |
+| [Tobey.UnityAudio](https://github.com/toebeann/Tobey.UnityAudio)                             | [LGPL-3.0](https://github.com/toebeann/Tobey.UnityAudio/blob/main/LICENSE)               |
 
 The code in this repository is licensed under the [LGPL-2.1 license](https://github.com/toebeann/BepInEx.Subnautica/blob/main/LICENSE).
